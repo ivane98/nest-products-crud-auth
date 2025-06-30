@@ -23,28 +23,28 @@ export class ProductsController {
     return this.productsService.create(createProductDto);
   }
 
-  // @Get()
-  // async findAll(): Promise<Product[]> {
-  //   return this.productsService.findAll();
-  // }
+  @Get()
+  async findAll() {
+    return await this.productsService.findAll();
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id', ParseIntPipe) id: number) {
-  //   console.log(id);
-  //   return `his path returns product with and id of ${id}`;
-  // }
+  @Get(':id')
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    console.log(id);
+    return await this.productsService.findOne(id);
+  }
 
-  // @Put(':id')
-  // update(
-  //   @Param('id', ParseIntPipe) id: number,
+  @Put(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
 
-  //   @Body() updateProductDto: UpdateProductDto,
-  // ) {
-  //   return `this path updates product with an id of ${id}`;
-  // }
+    @Body() dto: CreateProductDto,
+  ) {
+    return await this.productsService.update(id, dto);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id', ParseIntPipe) id: number) {
-  //   return `this path removes a product with an id of ${id}`;
-  // }
+  @Delete(':id')
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return await this.productsService.remove(id);
+  }
 }

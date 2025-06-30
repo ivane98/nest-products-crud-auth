@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 
@@ -7,23 +6,26 @@ import { CreateProductDto } from './dto/create-product.dto';
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(dto: CreateProductDto) {
-    return this.prisma.product.create({ data: dto });
+  async create(dto: CreateProductDto) {
+    return await this.prisma.product.create({ data: dto });
   }
 
-  // findAll(): Product[] {
-  //   return this.products;
-  // }
+  async findAll() {
+    return await this.prisma.product.findMany();
+  }
 
-  // findOne(name: string): Product {
-  //   const match = this.products.find((p) => p.name === name);
-  //   if (match) {
-  //     return match;
-  //   }
-  //   return this.products[0];
-  // }
+  async findOne(id: number) {
+    return await this.prisma.product.findUnique({ where: { id } });
+  }
 
-  // update(id: number, dto: UpdateProductDto) {
-  //   const match = this.products.find((p) => p.id === id);
-  // }
+  async update(id: number, dto: CreateProductDto) {
+    return await this.prisma.product.update({
+      where: { id },
+      data: { ...dto },
+    });
+  }
+
+  async remove(id: number) {
+    return await this.prisma.product.delete({ where: { id } });
+  }
 }
